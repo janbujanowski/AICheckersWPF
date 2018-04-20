@@ -26,7 +26,14 @@ namespace AI_Checkers
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value != null && value.GetType() == typeof(string))
+            {
+                return (FieldStatus)Enum.Parse(typeof(FieldStatus), value.ToString());
+            }
+            else
+            {
+                return DependencyProperty.UnsetValue;
+            }
         }
     }
 }

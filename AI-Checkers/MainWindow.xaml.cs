@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -25,17 +25,56 @@ namespace AI_Checkers
         Game game;
         public string Name;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        
         public MainWindow()
         {
             this.Name = "lol";
             InitializeComponent();
             this.game = new Game();
             this.DataContext = game;
-            //NotifyPropertyChanged("Name");
-            
+            InitBoardUI();
         }
+
+        private void InitBoardUI()
+        {
+            for (int i = 0; i < game.board.Length; i++)
+            {
+                for (int j = 0; j < game.board.Length; j++)
+                {
+                    StackPanel sp = new StackPanel();
+                    if ((i + j) % 2 == 0)
+                    {
+                        sp.Background = Brushes.White;
+                    }
+                    else
+                    {
+                        sp.Background = Brushes.Black;
+                    }
+                    TextBlock tb = new TextBlock();
+                    Binding nb = new Binding();
+                    nb.Source = this.game;
+                    nb.Path = new PropertyPath($"Board[{i}][{j}].Status");
+                    nb.Mode = BindingMode.OneWay;
+                    nb.Converter = new EnumToStringConverter();
+                    Grid.SetColumn(tb, i);
+                    Grid.SetRow(tb, j);
+                    Grid.SetColumn(sp, i);
+                    Grid.SetRow(sp, j);
+                    BindingOperations.SetBinding(tb, TextBlock.TextProperty, nb);
+                    sp.Children.Add(tb);
+                    BoardHolder.Children.Add(sp);
+                }
+            }
+        }
+
+        private void clicker_Click(object sender, RoutedEventArgs e)
+        {
+
+            game.Board[0][0].Status = FieldStatus.Player1Queen;
+            game.Name = "test";
+            NotifyPropertyChanged("Name");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
