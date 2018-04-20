@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AI_Checkers"
+        
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" MinWidth="500" Width="500">
 
+    <Window.Resources>
+        
+    </Window.Resources>
     <Grid Background="{StaticResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -19,6 +23,8 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="1" Text="Checkers Bijatch" Foreground="{StaticResource HeaderBrush}"></TextBlock>
+        <TextBlock Grid.Column="0" Text="{Binding Board[0][0].Status, Converter={StaticResource EnumToStringConverter}}" Foreground="{StaticResource HeaderBrush}"></TextBlock>
+        
         <Grid x:Name="BoardHolder" Grid.Column="1" Grid.Row="1" Width="400" Height="400">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

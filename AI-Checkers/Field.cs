@@ -1,4 +1,7 @@
-﻿namespace AI_Checkers
+﻿using System;
+using System.ComponentModel;
+
+namespace AI_Checkers
 {
     public enum FieldStatus
     {
@@ -11,12 +14,31 @@
 
     public class Field
     {
-        public FieldStatus Status;
+        public FieldStatus status;
+
+        private bool isQueenField;
+
+        public bool IsQueenField
+        {
+            get { return isQueenField; }
+            set { isQueenField = value; }
+        }
+
+        public Field()
+        {
+            this.status = FieldStatus.Red;
+            this.isQueenField = false;
+        }
 
         public Field(FieldStatus status, bool isQueenChangingField)
         {
-            this.Status = status;
+            this.status = status;
+            this.isQueenField = isQueenChangingField;
         }
 
+        public FieldStatus Status
+        {
+            get { return status; }
+        }
     }
 }

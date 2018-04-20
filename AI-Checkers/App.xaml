@@ -7,5 +7,6 @@
         <SolidColorBrush x:Key="BackgroundBrush" Color="#ece4d8" />
         <SolidColorBrush x:Key="HeaderBrush" Color="#7c334f" />
         <SolidColorBrush x:Key="HighLightBrush" Color="#544943" />
+        <local:EnumToStringConverter x:Key="EnumToStringConverter"/>
     </Application.Resources>
 </Application>
