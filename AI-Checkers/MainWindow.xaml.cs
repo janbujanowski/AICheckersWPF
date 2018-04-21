@@ -23,11 +23,9 @@ namespace AI_Checkers
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         Game game;
-        public string Name;
 
         public MainWindow()
         {
-            this.Name = "lol";
             InitializeComponent();
             this.game = new Game();
             this.DataContext = game;
@@ -43,11 +41,11 @@ namespace AI_Checkers
                     StackPanel sp = new StackPanel();
                     if ((i + j) % 2 == 0)
                     {
-                        sp.Background = Brushes.White;
+                        sp.Background = (SolidColorBrush)(Application.Current.Resources["WhiteField"]); 
                     }
                     else
                     {
-                        sp.Background = Brushes.Black;
+                        sp.Background = (SolidColorBrush)(Application.Current.Resources["BlackField"]);
                     }
                     TextBlock tb = new TextBlock();
                     Binding nb = new Binding();
@@ -68,10 +66,8 @@ namespace AI_Checkers
 
         private void clicker_Click(object sender, RoutedEventArgs e)
         {
-
             game.Board[0][0].Status = FieldStatus.Player1Queen;
             game.Name = "test";
-            NotifyPropertyChanged("Name");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

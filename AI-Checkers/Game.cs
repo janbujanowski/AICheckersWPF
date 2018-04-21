@@ -57,6 +57,15 @@ namespace AI_Checkers
             get { return board; }
         }
 
+        public void MakeMove(int startX, int startY, int endX, int endY)
+        {
+            if (true)//To do implement rules : CheckIfMovePossible()
+            {
+                
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

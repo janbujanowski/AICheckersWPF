@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AI_Checkers"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="500">
+        Title="MainWindow" Height="500" Width="700">
 
     <Window.Resources>
         
