@@ -61,7 +61,7 @@ namespace AI_Checkers
         {
             if (true)//To do implement rules : CheckIfMovePossible()
             {
-                
+                throw new NotImplementedException();
             }
         }
 
