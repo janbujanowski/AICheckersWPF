@@ -38,36 +38,48 @@ namespace AI_Checkers
             {
                 for (int j = 0; j < game.board.Length; j++)
                 {
-                    StackPanel sp = new StackPanel();
+                    StackPanel stackPanel = new StackPanel();
                     if ((i + j) % 2 == 0)
                     {
-                        sp.Background = (SolidColorBrush)(Application.Current.Resources["WhiteField"]); 
+                        stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["WhiteField"]); 
                     }
                     else
                     {
-                        sp.Background = (SolidColorBrush)(Application.Current.Resources["BlackField"]);
+                        stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["BlackField"]);
                     }
-                    TextBlock tb = new TextBlock();
-                    Binding nb = new Binding();
-                    nb.Source = this.game;
-                    nb.Path = new PropertyPath($"Board[{i}][{j}].Status");
-                    nb.Mode = BindingMode.OneWay;
-                    nb.Converter = new EnumToStringConverter();
-                    Grid.SetColumn(tb, i);
-                    Grid.SetRow(tb, j);
-                    Grid.SetColumn(sp, i);
-                    Grid.SetRow(sp, j);
-                    BindingOperations.SetBinding(tb, TextBlock.TextProperty, nb);
-                    sp.Children.Add(tb);
-                    BoardHolder.Children.Add(sp);
+
+                    Button butt = new Button();
+                    butt.Click += clicker_Click;
+                    butt.Background = Brushes.Transparent;
+
+                    Binding binding = new Binding();
+                    binding.Source = this.game;
+                    binding.Path = new PropertyPath($"Board[{i}][{j}].Status");
+                    binding.Mode = BindingMode.OneWay;
+                    binding.Converter = new EnumToStringConverter();
+
+                    TextBlock textBlock = new TextBlock();
+                    BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, binding);
+
+                    Grid.SetColumn(stackPanel, i);
+                    Grid.SetRow(stackPanel, j);
+                    Grid.SetColumn(butt, i);
+                    Grid.SetRow(butt, j);
+                    
+                    stackPanel.Children.Add(textBlock);
+                    BoardHolder.Children.Add(stackPanel);
+                    BoardHolder.Children.Add(butt);
                 }
             }
         }
 
         private void clicker_Click(object sender, RoutedEventArgs e)
         {
-            game.Board[0][0].Status = FieldStatus.Player1Queen;
-            game.Name = "test";
+
+            var butt = (Button)sender;
+            var col = Grid.GetColumn(butt);
+            var row = Grid.GetRow(butt);
+            game.board[row][col].Status = FieldStatus.Player1Queen;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
