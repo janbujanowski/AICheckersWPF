@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AI_Checkers
 {
@@ -38,7 +39,6 @@ namespace AI_Checkers
                     board[i][4] = new Field(FieldStatus.Empty, false);
                     board[i][5] = new Field(FieldStatus.Empty, false);
                     board[i][7] = new Field(FieldStatus.Empty, false);
-
                 }
                 else
                 {
@@ -77,11 +77,16 @@ namespace AI_Checkers
 
         public void MakeMove(int x_start, int y_start, int x_end, int y_end)
         {
-            if (Rules.IsMovePossible(board,x_start,y_start,x_end,y_end))
+            List<Point> checkersToRemove = new List<Point>();
+            if (Rules.IsMovePossible(board, x_start, y_start, x_end, y_end, checkersToRemove))
             {
                 var movingChecker = board[x_start][y_start].Status;
                 board[x_end][y_end].Status = movingChecker;
                 board[x_start][y_start].Status = FieldStatus.Empty;
+                foreach (var field in checkersToRemove)
+                {
+                    board[(int)field.X][(int)field.Y].Status = FieldStatus.Empty;
+                }
             }
         }
 

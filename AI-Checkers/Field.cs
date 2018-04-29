@@ -16,13 +16,12 @@ namespace AI_Checkers
     public class Field : INotifyPropertyChanged
     {
         public FieldStatus status;
-        private bool isQueenField;
+        private readonly bool isQueenField;
         
 
         public bool IsQueenField
         {
             get { return isQueenField; }
-            set { isQueenField = value; }
         }
 
         public Field()
