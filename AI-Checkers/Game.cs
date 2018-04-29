@@ -10,7 +10,7 @@ namespace AI_Checkers
 {
     public class Game : INotifyPropertyChanged
     {
-        public Field[][] board;
+        private Field[][] board;
         private int boardSize = 8;
         private string nameValue;
 
@@ -32,12 +32,25 @@ namespace AI_Checkers
                     board[i][0] = new Field(FieldStatus.Player2, true);
                     board[i][2] = new Field(FieldStatus.Player2, false);
                     board[i][6] = new Field(FieldStatus.Player1, false);
+
+                    board[i][1] = new Field(FieldStatus.Empty, false);
+                    board[i][3] = new Field(FieldStatus.Empty, false);
+                    board[i][4] = new Field(FieldStatus.Empty, false);
+                    board[i][5] = new Field(FieldStatus.Empty, false);
+                    board[i][7] = new Field(FieldStatus.Empty, false);
+
                 }
                 else
                 {
                     board[i][1] = new Field(FieldStatus.Player2, false);
                     board[i][5] = new Field(FieldStatus.Player1, false);
                     board[i][7] = new Field(FieldStatus.Player1, true);
+
+                    board[i][0] = new Field(FieldStatus.Empty, false);
+                    board[i][2] = new Field(FieldStatus.Empty, false);
+                    board[i][3] = new Field(FieldStatus.Empty, false);
+                    board[i][4] = new Field(FieldStatus.Empty, false);
+                    board[i][6] = new Field(FieldStatus.Empty, false);
                 }
             }
         }
@@ -57,11 +70,18 @@ namespace AI_Checkers
             get { return board; }
         }
 
+        public void MakeMove(Move move)
+        {
+            MakeMove(move.X_Start, move.Y_Start, move.X_End, move.Y_End);
+        }
+
         public void MakeMove(int x_start, int y_start, int x_end, int y_end)
         {
-            if (true)//To do implement rules : CheckIfMovePossible()
+            if (Rules.IsMovePossible(board,x_start,y_start,x_end,y_end))
             {
-                throw new NotImplementedException();
+                var movingChecker = board[x_start][y_start].Status;
+                board[x_end][y_end].Status = movingChecker;
+                board[x_start][y_start].Status = FieldStatus.Empty;
             }
         }
 

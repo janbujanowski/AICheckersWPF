@@ -23,6 +23,7 @@ namespace AI_Checkers
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         Game game;
+        Move currentMove;
 
         public MainWindow()
         {
@@ -34,9 +35,9 @@ namespace AI_Checkers
 
         private void InitBoardUI()
         {
-            for (int i = 0; i < game.board.Length; i++)
+            for (int i = 0; i < game.Board.Length; i++)
             {
-                for (int j = 0; j < game.board.Length; j++)
+                for (int j = 0; j < game.Board.Length; j++)
                 {
                     StackPanel stackPanel = new StackPanel();
                     if ((i + j) % 2 == 0)
@@ -79,7 +80,28 @@ namespace AI_Checkers
             var butt = (Button)sender;
             var col = Grid.GetColumn(butt);
             var row = Grid.GetRow(butt);
-            game.board[row][col].Status = FieldStatus.Player1Queen;
+            if (currentMove == null)
+            {
+                currentMove = new Move(col, row, -1, -1);
+            }
+            else
+            {
+                currentMove = new Move(currentMove.X_Start, currentMove.Y_Start, col, row);
+                try
+                {
+                    game.MakeMove(currentMove);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Move not possible");
+                    //throw;
+                }
+                finally
+                {
+                    currentMove = null;
+                }
+            }
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

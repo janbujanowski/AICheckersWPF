@@ -13,15 +13,34 @@ namespace AI_Checkers
             throw new NotImplementedException();
         }
 
-        public static bool isMovePossible(Field[] board, Move move)
+        public static bool IsMovePossible(Field[][] board, Move move)
         {
-            throw new NotImplementedException();
+            Field start = board[move.X_Start][move.Y_Start];
+            Field destination = board[move.X_End][move.Y_End];
+            bool isQueenChecker = start.Status == FieldStatus.Player1Queen || start.Status == FieldStatus.Player2Queen;
+            if (move.IsBasicMove)
+            {
+                if (destination.Status == FieldStatus.Empty)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //to do Rules for skipping// capturing
+                throw new NotImplementedException();
+            }
         }
 
-        public static bool isMovePossible(Field[] board, int posx, int posy, int posx2, int posy2)
+
+        public static bool IsMovePossible(Field[][] board, int x_start, int y_start, int x_end, int posy2)
         {
-            Move move = new Move(posx, posy, posx2, posy2);
-            return isMovePossible(board, move);
+            Move move = new Move(x_start, y_start, x_end, posy2);
+            return IsMovePossible(board, move);
         }
     }
 }
