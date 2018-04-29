@@ -90,15 +90,18 @@ namespace AI_Checkers
             }
         }
 
-        public Move[] GetPossibleMoves(int posx, int posy)
+        public Move[] GetPossibleMoves(int x_start, int y_start)
         {
-            return Rules.GetPossibleMoves(board, posx, posy);
+            return Rules.GetPossibleMoves(board, x_start, y_start);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

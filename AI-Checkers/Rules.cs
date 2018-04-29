@@ -9,7 +9,7 @@ namespace AI_Checkers
 {
     public static class Rules
     {
-        public static Move[] GetPossibleMoves(Field[][] board, int posx, int posy)
+        public static Move[] GetPossibleMoves(Field[][] board, int x_start, int y_start)
         {
             throw new NotImplementedException();
         }
@@ -73,9 +73,9 @@ namespace AI_Checkers
         }
 
 
-        public static bool IsMovePossible(Field[][] board, int x_start, int y_start, int x_end, int posy2, List<Point> checkersToRemove = default(List<Point>))
+        public static bool IsMovePossible(Field[][] board, int x_start, int y_start, int x_end, int y_end, List<Point> checkersToRemove = default(List<Point>))
         {
-            Move move = new Move(x_start, y_start, x_end, posy2);
+            Move move = new Move(x_start, y_start, x_end, y_end);
             return IsMovePossible(board, move, checkersToRemove);
         }
     }
