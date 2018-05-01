@@ -25,7 +25,7 @@ namespace AI_Checkers
             for (int i = 0; i < boardSize; i++)
             {
                 board[i] = new Field[boardSize];
-                if (i % 2 == 0)
+                if (i % 2 != 0)
                 {
                     board[i][0] = new Field(FieldStatus.Player2, true);
                     board[i][2] = new Field(FieldStatus.Player2, false);
@@ -78,12 +78,25 @@ namespace AI_Checkers
             if (Rules.IsMovePossible(board, x_start, y_start, x_end, y_end, checkersToRemove))
             {
                 var movingChecker = board[x_start][y_start].Status;
+                if (board[x_end][y_end].IsQueenField)
+                {
+                    //TODO upgrade architecture with "Player/Checker" class
+                    if (movingChecker == FieldStatus.Player1)
+                    {
+                        movingChecker = FieldStatus.Player1Queen;
+                    }
+                    else
+                    {
+                        movingChecker = FieldStatus.Player2Queen;
+                    }
+                }
                 board[x_end][y_end].Status = movingChecker;
                 board[x_start][y_start].Status = FieldStatus.Empty;
                 foreach (var field in checkersToRemove)
                 {
                     board[(int)field.X][(int)field.Y].Status = FieldStatus.Empty;
                 }
+
             }
         }
 

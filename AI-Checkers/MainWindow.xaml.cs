@@ -48,7 +48,7 @@ namespace AI_Checkers
                     {
                         stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["BlackField"]);
                     }
-
+                    
                     Button butt = new Button();
                     butt.Click += clicker_Click;
                     butt.Background = Brushes.Transparent;
@@ -61,6 +61,7 @@ namespace AI_Checkers
 
                     TextBlock textBlock = new TextBlock();
                     BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, binding);
+                    textBlock.Foreground = (SolidColorBrush)Application.Current.Resources["HeaderBrush"];
 
                     Grid.SetColumn(stackPanel, i);
                     Grid.SetRow(stackPanel, j);
