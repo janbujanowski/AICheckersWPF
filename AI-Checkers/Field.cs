@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
 
 namespace AI_Checkers
 {
@@ -17,7 +18,7 @@ namespace AI_Checkers
     {
         public FieldStatus status;
         private readonly bool isQueenField;
-        
+
 
         public bool IsQueenField
         {
@@ -43,6 +44,29 @@ namespace AI_Checkers
             {
                 status = value;
                 NotifyPropertyChanged("Status");
+                NotifyPropertyChanged("CheckerColor");
+            }
+        }
+
+        public Brush CheckerColor
+        {
+            get
+            {
+                switch (status)
+                {
+                    case FieldStatus.Empty:
+                        return Brushes.Transparent;
+                    case FieldStatus.Player1:
+                        return Brushes.Pink;
+                    case FieldStatus.Player2:
+                        return Brushes.Black;
+                    case FieldStatus.Player1Queen:
+                        return Brushes.Pink;
+                    case FieldStatus.Player2Queen:
+                        return Brushes.Black;
+                    default:
+                        return Brushes.Transparent;
+                }
             }
         }
 

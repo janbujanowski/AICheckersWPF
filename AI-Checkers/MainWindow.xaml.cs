@@ -52,7 +52,7 @@ namespace AI_Checkers
                     Button butt = new Button();
                     butt.Style = (Style)Application.Current.Resources["RoundCorner"];
                     butt.Click += clicker_Click;
-                    butt.Background = Brushes.AliceBlue;
+                    
 
                     Binding binding = new Binding();
                     binding.Source = this.game;
@@ -69,7 +69,13 @@ namespace AI_Checkers
                     Grid.SetColumn(butt, i);
                     Grid.SetRow(butt, j);
 
-                    butt.Content = textBlock ;
+
+                    Binding buttBind = new Binding();
+                    buttBind.Source = this.game;
+                    buttBind.Path = new PropertyPath($"Board[{i}][{j}].CheckerColor");
+                    buttBind.Mode = BindingMode.OneWay;
+                    BindingOperations.SetBinding(butt, Button.ContentProperty, buttBind);
+
                     BoardHolder.Children.Add(stackPanel);
                     BoardHolder.Children.Add(butt);
                 }
