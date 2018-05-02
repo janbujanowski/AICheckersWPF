@@ -74,7 +74,7 @@ namespace AI_Checkers
                     buttBind.Source = this.game;
                     buttBind.Path = new PropertyPath($"Board[{i}][{j}].CheckerColor");
                     buttBind.Mode = BindingMode.OneWay;
-                    BindingOperations.SetBinding(butt, Button.ContentProperty, buttBind);
+                    BindingOperations.SetBinding(butt, Button.BackgroundProperty, buttBind);
 
                     BoardHolder.Children.Add(stackPanel);
                     BoardHolder.Children.Add(butt);

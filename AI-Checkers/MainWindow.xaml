@@ -25,9 +25,8 @@
         <TextBlock Grid.Column="1" Text="Testowy" Foreground="{StaticResource WhiteField}"></TextBlock>
         <TextBlock Grid.Column="0" Text="{Binding Board[0][0].Status, Converter={StaticResource EnumToStringConverter}}" Foreground="{StaticResource HeaderBrush}"></TextBlock>
         <Button x:Name="clicker" Grid.Column="2" Content="Change" Click="clicker_Click" />
-        <Button x:Name="troll" Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundCorner}" Content="{Binding Board[1][2].CheckerColor}" >
-
-        </Button>
+        <!--<Button x:Name="troll" Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundCorner}" Background="{Binding Board[1][2].CheckerColor}" >
+        </Button>-->
         <Grid x:Name="BoardHolder" Grid.Column="1" Grid.Row="1" Width="400" Height="400" >
             
             <Grid.ColumnDefinitions>
