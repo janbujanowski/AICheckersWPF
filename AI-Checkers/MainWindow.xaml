@@ -25,7 +25,28 @@
         <TextBlock Grid.Column="1" Text="Testowy" Foreground="{StaticResource WhiteField}"></TextBlock>
         <TextBlock Grid.Column="0" Text="{Binding Board[0][0].Status, Converter={StaticResource EnumToStringConverter}}" Foreground="{StaticResource HeaderBrush}"></TextBlock>
         <Button x:Name="clicker" Grid.Column="2" Content="Change" Click="clicker_Click" />
-        <Grid x:Name="BoardHolder" Grid.Column="1" Grid.Row="1" Width="400" Height="400">
+        <Button x:Name="troll" Grid.Column="0" Grid.Row="1" >
+            <Button.Style>
+                <Style TargetType="Button">
+                    
+                    <Setter Property="Background" Value="Pink"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Board[0][1].Status}" Value="Empty">
+                            <Setter Property="Background" Value="Purple"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Board[0][1].Status}" Value="Player1">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Board[0][1].Status}" Value="Player2">
+                            <Setter Property="Background" Value="SaddleBrown"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+
+        </Button>
+        <Grid x:Name="BoardHolder" Grid.Column="1" Grid.Row="1" Width="400" Height="400" >
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
