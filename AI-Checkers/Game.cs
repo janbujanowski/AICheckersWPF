@@ -34,9 +34,9 @@ namespace AI_Checkers
                 board[i] = new Field[boardSize];
                 if (i % 2 != 0)
                 {
-                    board[i][0] = new Field(new Checker(!isQueen, !isAI), isQueen);
-                    board[i][2] = new Field(new Checker(!isQueen, !isAI), !isQueen);
-                    board[i][6] = new Field(new Checker(!isQueen, isAI), !isQueen);
+                    board[i][0] = new Field(new Checker(!isQueen, isAI), isQueen);
+                    board[i][2] = new Field(new Checker(!isQueen, isAI), !isQueen);
+                    board[i][6] = new Field(new Checker(!isQueen, !isAI), !isQueen);
 
                     board[i][1] = new Field(null, !isQueen);
                     board[i][3] = new Field(null, !isQueen);
@@ -101,7 +101,6 @@ namespace AI_Checkers
                 var movingChecker = board[x_start][y_start].Check;
                 if (board[x_end][y_end].IsQueenField)
                 {
-                    //TODO upgrade architecture with "Player/Checker" class
                     if (!movingChecker.isQueen)
                     {
                         movingChecker.isQueen = true;
