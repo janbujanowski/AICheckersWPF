@@ -19,10 +19,37 @@ namespace AI_Checkers
         public FieldStatus status;
         private readonly bool isQueenField;
 
+        private Checker check;
+
+        public Checker Check
+        {
+            get { return check; }
+            set
+            {
+                check = value;
+                NotifyPropertyChanged("CheckerColor");
+            }
+        }
 
         public bool IsQueenField
         {
             get { return isQueenField; }
+        }
+
+        public Brush CheckerColor
+        {
+            get
+            {
+                if (check != null)
+                {
+                    return check.Color;
+                }
+                else
+                {
+                    return Brushes.Transparent;
+                }
+
+            }
         }
 
         public Field()
@@ -36,7 +63,11 @@ namespace AI_Checkers
             this.status = status;
             this.isQueenField = isQueenChangingField;
         }
-
+        public Field(Checker check, bool isQueenChangingField)
+        {
+            this.check = check;
+            this.isQueenField = isQueenChangingField;
+        }
         public FieldStatus Status
         {
             get { return status; }
@@ -48,27 +79,27 @@ namespace AI_Checkers
             }
         }
 
-        public Brush CheckerColor
-        {
-            get
-            {
-                switch (status)
-                {
-                    case FieldStatus.Empty:
-                        return Brushes.Transparent;
-                    case FieldStatus.Player1:
-                        return Brushes.Pink;
-                    case FieldStatus.Player2:
-                        return Brushes.Black;
-                    case FieldStatus.Player1Queen:
-                        return Brushes.Pink;
-                    case FieldStatus.Player2Queen:
-                        return Brushes.Black;
-                    default:
-                        return Brushes.Transparent;
-                }
-            }
-        }
+        //public Brush CheckerColor
+        //{
+        //    get
+        //    {
+        //        switch (status)
+        //        {
+        //            case FieldStatus.Empty:
+        //                return Brushes.Transparent;
+        //            case FieldStatus.Player1:
+        //                return Brushes.Pink;
+        //            case FieldStatus.Player2:
+        //                return Brushes.Black;
+        //            case FieldStatus.Player1Queen:
+        //                return Brushes.Pink;
+        //            case FieldStatus.Player2Queen:
+        //                return Brushes.Black;
+        //            default:
+        //                return Brushes.Transparent;
+        //        }
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

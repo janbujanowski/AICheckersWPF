@@ -48,35 +48,26 @@ namespace AI_Checkers
                     {
                         stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["BlackField"]);
                     }
-                    
-                    Button butt = new Button();
-                    butt.Style = (Style)Application.Current.Resources["RoundCorner"];
-                    butt.Click += clicker_Click;
-                    
-
-                    Binding binding = new Binding();
-                    binding.Source = this.game;
-                    binding.Path = new PropertyPath($"Board[{i}][{j}].Status");
-                    binding.Mode = BindingMode.OneWay;
-                    binding.Converter = new EnumToStringConverter();
-
-                    TextBlock textBlock = new TextBlock();
-                    BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, binding);
-                    textBlock.Foreground = (SolidColorBrush)Application.Current.Resources["HeaderBrush"];
-
                     Grid.SetColumn(stackPanel, i);
                     Grid.SetRow(stackPanel, j);
+                    BoardHolder.Children.Add(stackPanel);
+
+                    Button butt = new Button
+                    {
+                        Style = (Style)Application.Current.Resources["RoundCorner"]
+                    };
+                    butt.Click += clicker_Click;
+
+                    Binding buttBind = new Binding
+                    {
+                        Source = this.game,
+                        Path = new PropertyPath($"Board[{i}][{j}].CheckerColor"),
+                        Mode = BindingMode.OneWay
+                    };
+
                     Grid.SetColumn(butt, i);
                     Grid.SetRow(butt, j);
-
-
-                    Binding buttBind = new Binding();
-                    buttBind.Source = this.game;
-                    buttBind.Path = new PropertyPath($"Board[{i}][{j}].CheckerColor");
-                    buttBind.Mode = BindingMode.OneWay;
                     BindingOperations.SetBinding(butt, Button.BackgroundProperty, buttBind);
-
-                    BoardHolder.Children.Add(stackPanel);
                     BoardHolder.Children.Add(butt);
                 }
             }
@@ -105,7 +96,7 @@ namespace AI_Checkers
                 }
                 catch (Exception ex)
                 {
-                    //MessageBox.Show("Move not possible");
+                    MessageBox.Show("Internal game problem : " + ex.Message);
                 }
                 finally
                 {
