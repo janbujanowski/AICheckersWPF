@@ -59,6 +59,10 @@ namespace AI_Checkers
                     }
                     else
                     {
+                        if (isQueenChecker)
+                        {
+                            return true;
+                        }
                         return false;
                     }
                 }
@@ -71,6 +75,10 @@ namespace AI_Checkers
                     }
                     else
                     {
+                        if (isQueenChecker)
+                        {
+                            return true;
+                        }
                         return false;
                     }
                 }
@@ -82,10 +90,13 @@ namespace AI_Checkers
             else
             {
                 //its recurring capture
-                if (IsGoodRecurring(board, move, checkersToRemove))
+                bool atLeastOneGood = false;
+                IsGoodRecurring(board, move, checkersToRemove, ref atLeastOneGood);
+                if (atLeastOneGood)
                 {
                     return true;
                 }
+
 
                 if (isQueenChecker)
                 {
@@ -121,10 +132,10 @@ namespace AI_Checkers
                     }
                 }
             }
-            throw new NotImplementedException();
+            return false;
         }
 
-        private static bool IsGoodRecurring(Field[][] board, Move move, List<Point> checkersToRemove)
+        private static bool IsGoodRecurring(Field[][] board, Move move, List<Point> checkersToRemove, ref bool atLeastOneGood)
         {
             List<Move> possibilities = new List<Move>()
                 {
@@ -135,21 +146,24 @@ namespace AI_Checkers
                 };
             foreach (var possibility in possibilities)
             {
-                if (IsMovePossible(board, possibility, checkersToRemove))
+                Field[][] fakeBoard = board.Select(s => s.ToArray()).ToArray();
+                if (IsMovePossible(fakeBoard, possibility, checkersToRemove))
                 {
-                    Field[][] fakeBoard = (Field[][])board.Clone();
-                    fakeBoard[possibility.X_End][possibility.Y_End] = board[possibility.X_Start][possibility.Y_Start];
-                    if (IsGoodRecurring(fakeBoard, possibility, checkersToRemove))
+                    atLeastOneGood = true;
+                    fakeBoard[possibility.X_End][possibility.Y_End].Check = fakeBoard[possibility.X_Start][possibility.Y_Start].Check;
+                    checkersToRemove.Add(new Point(possibility.X_Start, possibility.Y_Start));
+                    Move fakeMove = new Move(possibility.X_End, possibility.Y_End, -1, -1);
+                    if (IsGoodRecurring(fakeBoard, fakeMove, checkersToRemove,ref atLeastOneGood))
                     {
                         return true;
                     }
                     else
                     {
-                        checkersToRemove.Clear();
+                        //checkersToRemove.Clear();
                     }
                 }
             }
-            return false;
+            return atLeastOneGood;
         }
 
         public static bool IsMovePossible(Field[][] board, int x_start, int y_start, int x_end, int y_end, List<Point> checkersToRemove = default(List<Point>))
