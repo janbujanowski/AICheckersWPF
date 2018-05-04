@@ -55,8 +55,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AI\AIRandom.cs" />
+    <Compile Include="Base\BaseChecker.cs" />
+    <Compile Include="Base\IRules.cs" />
     <Compile Include="Checker.cs" />
-    <Compile Include="IAI.cs" />
+    <Compile Include="Base\IAI.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Rules.cs" />
     <Page Include="MainWindow.xaml">

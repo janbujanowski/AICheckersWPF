@@ -1,4 +1,5 @@
 ﻿using AI_Checkers.AI;
+using AI_Checkers.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace AI_Checkers
             InitializeComponent();
             this.game = new Game();
             this.DataContext = game;
-            this.AI = new AIRandom();
+            AI = new AIRandom();
             InitBoardUI();
         }
 

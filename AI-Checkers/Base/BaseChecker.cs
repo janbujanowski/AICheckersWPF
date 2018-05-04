@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AI_Checkers
+namespace AI_Checkers.Base
 {
-    interface IAI
+    abstract class BaseChecker
     {
-        Move GetNextMove(Field[][] board);
     }
 }
