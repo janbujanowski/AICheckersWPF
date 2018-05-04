@@ -14,13 +14,13 @@ namespace AI_Checkers
         public static bool IsMovePossible(Field[][] board, Move move, List<Point> checkersToRemove = default(List<Point>))
         {
             Field destination = board[move.X_End][move.Y_End];
-            if (destination.Status != FieldStatus.Empty)
+            if (destination.Check != null)
             {
                 return false;
             }
 
             Field start = board[move.X_Start][move.Y_Start];
-            bool isQueenChecker = start.Status == FieldStatus.Player1Queen || start.Status == FieldStatus.Player2Queen;
+            bool isQueenChecker = start.Check.isQueen;
             if (move.IsBasicMove)
             {
                 return true;
@@ -32,9 +32,9 @@ namespace AI_Checkers
                     var x_FieldBetween = move.X_Start + (move.X_End - move.X_Start) / 2;
                     var y_FieldBetween = move.Y_Start + (move.Y_End - move.Y_Start) / 2;
                     Field between = board[x_FieldBetween][y_FieldBetween];
-                    if (start.Status == FieldStatus.Player1 || start.Status == FieldStatus.Player1Queen)
+                    if (!start.Check.isAI)
                     {
-                        if (between.Status == FieldStatus.Player2 || between.Status == FieldStatus.Player2Queen)
+                        if (between.Check.isAI)
                         {
                             checkersToRemove.Add(new Point(x_FieldBetween, y_FieldBetween));
                             return true;
@@ -44,9 +44,9 @@ namespace AI_Checkers
                             return false;
                         }
                     }
-                    else if (start.Status == FieldStatus.Player2 || start.Status == FieldStatus.Player2Queen)
+                    else if (start.Check.isAI)
                     {
-                        if (between.Status == FieldStatus.Player1 || between.Status == FieldStatus.Player1Queen)
+                        if (!between.Check.isAI)
                         {
                             checkersToRemove.Add(new Point(x_FieldBetween, y_FieldBetween));
                             return true;
