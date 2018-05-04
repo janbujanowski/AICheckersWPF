@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace AI_Checkers.AI
 {
-    class AIRandom : IAI
+    class AIMinMax : IAI
     {
-        // TODO create some random movement
+        // ZZZ what with the rules which are static, fuck thath shit
         public Move GetNextMove(Field[][] board)
-        {
-            throw new NotImplementedException();
-        }
-        private List<Move> GetPossibleMoves()
         {
             throw new NotImplementedException();
         }

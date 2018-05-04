@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AI\AIMinMax.cs" />
     <Compile Include="AI\AIRandom.cs" />
     <Compile Include="Base\BaseChecker.cs" />
     <Compile Include="Base\IRules.cs" />
