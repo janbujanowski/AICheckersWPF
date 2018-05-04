@@ -97,7 +97,6 @@ namespace AI_Checkers
                     return true;
                 }
 
-
                 if (isQueenChecker)
                 {
                     //long move with one capture maximum

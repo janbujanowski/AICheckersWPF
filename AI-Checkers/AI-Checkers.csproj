@@ -54,7 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AI\AIRandom.cs" />
     <Compile Include="Checker.cs" />
+    <Compile Include="IAI.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Rules.cs" />
     <Page Include="MainWindow.xaml">

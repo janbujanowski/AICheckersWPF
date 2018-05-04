@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AI_Checkers.AI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,12 +25,13 @@ namespace AI_Checkers
     {
         Game game;
         Move currentMove;
-
+        IAI AI;
         public MainWindow()
         {
             InitializeComponent();
             this.game = new Game();
             this.DataContext = game;
+            this.AI = new AIRandom();
             InitBoardUI();
         }
 
@@ -93,6 +95,8 @@ namespace AI_Checkers
                 try
                 {
                     game.MakeMove(currentMove);
+                    //Move AIMove = AI.GetNextMove(game.Board);
+                    //game.MakeMove(AIMove);
                 }
                 catch (Exception ex)
                 {
