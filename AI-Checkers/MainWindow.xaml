@@ -27,6 +27,7 @@
         <Button x:Name="clicker" Grid.Column="2" Content="Change" Click="clicker_Click" />
         <!--<Button x:Name="troll" Grid.Column="0" Grid.Row="1" Style="{StaticResource RoundCorner}" Background="{Binding Board[1][2].CheckerColor}" >
         </Button>-->
+        <TextBlock x:Name="LogBox" Text="{Binding GameInfo}" Grid.Column="2" Grid.Row="1" />
         <Grid x:Name="BoardHolder" Grid.Column="1" Grid.Row="1" Width="400" Height="400" >
             
             <Grid.ColumnDefinitions>

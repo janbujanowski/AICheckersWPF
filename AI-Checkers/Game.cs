@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 
 namespace AI_Checkers
@@ -12,10 +13,14 @@ namespace AI_Checkers
         private int boardSize = 8;
         private string nameValue;
 
+        private StringBuilder gameInfo;
+
         public Game()
         {
             InitBoard();
             this.nameValue = "AI-Checkers!";
+            gameInfo = new StringBuilder();
+            AddGameLog("Game initialized");
         }
 
         private void InitBoard()
@@ -62,6 +67,20 @@ namespace AI_Checkers
             }
         }
 
+        public string GameInfo
+        {
+            get
+            {
+                return gameInfo.ToString();
+            }
+        }
+
+        private void AddGameLog(string message)
+        {
+            gameInfo.AppendLine(message);
+            NotifyPropertyChanged("GameInfo");
+        }
+
         public Field[][] Board
         {
             get { return board; }
@@ -96,7 +115,10 @@ namespace AI_Checkers
                 {
                     board[(int)field.X][(int)field.Y].Status = FieldStatus.Empty;
                 }
-
+            }
+            else
+            {
+                AddGameLog($"Move {x_start},{y_start} -> {x_end},{y_end} not possible");
             }
         }
 

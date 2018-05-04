@@ -92,6 +92,10 @@ namespace AI_Checkers
             {
                 currentMove = new Move(col, row, -1, -1);
             }
+            else if (currentMove.X_Start == col && currentMove.Y_Start == row)
+            {
+                //do nothing - start/end position are the same
+            }
             else
             {
                 currentMove = new Move(currentMove.X_Start, currentMove.Y_Start, col, row);
@@ -101,8 +105,7 @@ namespace AI_Checkers
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Move not possible");
-                    //throw;
+                    //MessageBox.Show("Move not possible");
                 }
                 finally
                 {

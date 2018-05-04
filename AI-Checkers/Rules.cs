@@ -16,7 +16,7 @@ namespace AI_Checkers
             Field destination = board[move.X_End][move.Y_End];
             if (destination.Status != FieldStatus.Empty)
             {
-                throw new InvalidOperationException();
+                return false;
             }
 
             Field start = board[move.X_Start][move.Y_Start];
