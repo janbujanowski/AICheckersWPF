@@ -45,7 +45,7 @@ namespace AI_Checkers
                     StackPanel stackPanel = new StackPanel();
                     if ((i + j) % 2 == 0)
                     {
-                        stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["WhiteField"]); 
+                        stackPanel.Background = (SolidColorBrush)(Application.Current.Resources["WhiteField"]);
                     }
                     else
                     {
@@ -93,22 +93,24 @@ namespace AI_Checkers
             else
             {
                 currentMove = new Move(currentMove.X_Start, currentMove.Y_Start, col, row);
-                try
-                {
-                    game.MakeMove(currentMove);
-                    //Move AIMove = AI.GetNextMove(game.Board);
-                    //game.MakeMove(AIMove);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Internal game problem : " + ex.Message);
-                }
-                finally
-                {
+                //try
+                //{
+                    if (game.MakeMove(currentMove))
+                    {
+                        Move AIMove = AI.GetNextMove(game.Board);
+                        game.MakeMove(AIMove);
+                    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("Internal game problem : " + ex.Message);
+                //}
+                //finally
+                //{
                     currentMove = null;
-                }
+                //}
             }
-            
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

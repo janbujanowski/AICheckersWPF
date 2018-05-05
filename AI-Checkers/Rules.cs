@@ -18,7 +18,7 @@ namespace AI_Checkers
             {
                 return false;
             }
-
+            
             Field destination = board[move.X_End][move.Y_End];
             if (destination.Check != null)
             {
@@ -43,6 +43,10 @@ namespace AI_Checkers
             }
             else if ((Math.Abs(move.X_End - move.X_Start) == 2 && Math.Abs(move.Y_End - move.Y_Start) == 2))
             {
+                if (checkersToRemove == null)
+                {
+                    checkersToRemove = new List<Point>();
+                }
                 var x_FieldBetween = move.X_Start + (move.X_End - move.X_Start) / 2;
                 var y_FieldBetween = move.Y_Start + (move.Y_End - move.Y_Start) / 2;
                 Field between = board[x_FieldBetween][y_FieldBetween];

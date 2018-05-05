@@ -88,12 +88,12 @@ namespace AI_Checkers
             get { return board; }
         }
 
-        public void MakeMove(Move move)
+        public bool MakeMove(Move move)
         {
-            MakeMove(move.X_Start, move.Y_Start, move.X_End, move.Y_End);
+            return MakeMove(move.X_Start, move.Y_Start, move.X_End, move.Y_End);
         }
 
-        public void MakeMove(int x_start, int y_start, int x_end, int y_end)
+        public bool MakeMove(int x_start, int y_start, int x_end, int y_end)
         {
             List<Point> checkersToRemove = new List<Point>();
             if (Rules.IsMovePossible(board, x_start, y_start, x_end, y_end, checkersToRemove))
@@ -112,11 +112,13 @@ namespace AI_Checkers
                 {
                     board[(int)field.X][(int)field.Y].Check = null;
                 }
+                return true;
             }
             else
             {
                 AddGameLog($"Move {x_start},{y_start} -> {x_end},{y_end} not possible");
             }
+            return false;
         }
 
         public Move[] GetPossibleMoves(int x_start, int y_start)
