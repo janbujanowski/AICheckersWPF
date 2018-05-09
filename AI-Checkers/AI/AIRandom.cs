@@ -57,10 +57,5 @@ namespace AI_Checkers.AI
             possible.AddRange(captureMoves.Where(z => Rules.IsMovePossible(board, z)));
             return possible;
         }
-
-        private List<Move> GetPossibleMoves()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

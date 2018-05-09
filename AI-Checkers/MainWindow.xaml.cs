@@ -93,22 +93,22 @@ namespace AI_Checkers
             else
             {
                 currentMove = new Move(currentMove.X_Start, currentMove.Y_Start, col, row);
-                //try
-                //{
+                try
+                {
                     if (game.MakeMove(currentMove))
                     {
                         Move AIMove = AI.GetNextMove(game.Board);
                         game.MakeMove(AIMove);
                     }
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Internal game problem : " + ex.Message);
-                //}
-                //finally
-                //{
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Internal game problem : " + ex.Message);
+                }
+                finally
+                {
                     currentMove = null;
-                //}
+                }
             }
 
         }
