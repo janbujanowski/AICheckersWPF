@@ -63,6 +63,7 @@
     <Compile Include="Move.cs" />
     <Compile Include="Rules.cs" />
     <Compile Include="Tree.cs" />
+    <Compile Include="UtilsExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

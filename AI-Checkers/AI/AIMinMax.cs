@@ -10,7 +10,7 @@ namespace AI_Checkers.AI
 {
     class AIMinMax : IAI
     {
-        const int AI_TREEDEPTH = 5;
+        const int AI_TREEDEPTH = 3;
 
         const int WEIGHT_SINGLECHECKER = 2;
         const int WEIGHT_QUEEN = 6;
@@ -35,16 +35,21 @@ namespace AI_Checkers.AI
             foreach (Move myPossibleMove in possibleMoves)
             {
                 var isMaxing = true;
-                // CalculateChildMoves(0, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(Board));
+                
+                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board));
 
                 //gameTree.AddChildren(Utils.GetOpenSquares(Board, new Point(j, i)));
             }
 
-            
             Move nextMove = ScoreTreeMoves(gameTree);
-
             return nextMove;
         }
+
+        private void CalculateChildTree(int aI_TREEDEPTH, Tree<Move> tree, Move myPossibleMove, Field[][] board)
+        {
+            board.MakeMove(myPossibleMove.X_Start, myPossibleMove.Y_Start, myPossibleMove.X_End, myPossibleMove.Y_End);
+        }
+
         private List<Move> GetPossibleMoves(Field[][] board, bool getAiMoves)
         {
             var possibleMoves = new List<Move>();
