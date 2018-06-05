@@ -9,20 +9,19 @@ namespace AI_Checkers.AI
 {
     class AIMinMax : IAI
     {
-        int AI_MAXPLYLEVEL = 5;
+        const int AI_TREEDEPTH = 5;
 
-        //Offensive
-        int WEIGHT_CAPTUREPIECE = 2;
-        int WEIGHT_CAPTUREKING = 1;
-        int WEIGHT_CAPTUREDOUBLE = 5;
-        int WEIGHT_CAPTUREMULTI = 10;
+        const int WEIGHT_SINGLECHECKER = 2;
+        const int WEIGHT_QUEEN = 6;
+        //int WEIGHT_CAPTUREDOUBLE = 5;
+        //int WEIGHT_CAPTUREMULTI = 10;
 
-        //Defensive
-        int WEIGHT_ATRISK = 3;
-        int WEIGHT_KINGATRISK = 4;
+        ////Defensive
+        //int WEIGHT_ATRISK = 3;
+        //int WEIGHT_KINGATRISK = 4;
 
-        //Strategic
-        int WEIGHT_MAKEKING = 1;
+        ////Strategic
+        //int WEIGHT_MAKEKING = 1;
         Tree<Move> gameTree;
 
         public Move GetNextMove(Field[][] board)
@@ -30,7 +29,7 @@ namespace AI_Checkers.AI
             Console.WriteLine();
             Console.WriteLine("AI: Building Game Tree...");
 
-            gameTree = new Tree<Move>(new Move(-1,-1,-1,-1));
+            gameTree = new Tree<Move>(new Move(-1, -1, -1, -1));
 
             for (int i = 0; i < 8; i++)
             {
@@ -38,11 +37,11 @@ namespace AI_Checkers.AI
                 {
                     if (board[i][j].Check.isAI)
                     {
-                        var possibleMoves = GetPossibleMoves(board, i,j);
+                        var possibleMoves = GetPossibleMoves(board, i, j);
                         foreach (Move myPossibleMove in possibleMoves)
                         {
 
-                           // CalculateChildMoves(0, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(Board));
+                            // CalculateChildMoves(0, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(Board));
 
                             //gameTree.AddChildren(Utils.GetOpenSquares(Board, new Point(j, i)));
                         }
@@ -79,10 +78,38 @@ namespace AI_Checkers.AI
             throw new NotImplementedException();
         }
 
+        private float ScoreBoard(Field[][] board, bool isAiMax)
+        {
+            float score = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    var checker = board[i][j].Check;
+                    if (checker != null)
+                    {
+                        if (checker.isAI)
+                        {
+                            score += WEIGHT_SINGLECHECKER;
+                        }
+                        if (checker.isQueen)
+                        {
+                            score += WEIGHT_QUEEN;
+                        }
+                    }
+                }
+            }
+            if (!isAiMax)
+            {
+                score = -1 * score;
+            }
+            return score;
+        }
+
         private List<Move> GetPossibleMoves(Field[][] board, int i, int j)
         {
             throw new NotImplementedException();
         }
-        
+
     }
 }
