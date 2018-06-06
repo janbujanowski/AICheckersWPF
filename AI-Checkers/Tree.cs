@@ -55,5 +55,26 @@ namespace AI_Checkers
 
         public float Score;
 
+        public List<float> AllScores
+        {
+            get
+            {
+                var scores = new List<float>();
+                if (Children == null || Children.Count == 0)
+                {
+                    scores.Add(Score);
+                }
+                else
+                {
+                    foreach (var node in Children)
+                    {
+                        scores.AddRange(node.AllScores);
+                    }
+                }
+                
+                return scores;
+            }
+        }
+
     }
 }

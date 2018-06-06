@@ -9,6 +9,10 @@ namespace AI_Checkers
 {
     public static class UtilsExtensions
     {
+        public static bool MakeMove(this Field[][] board, Move move)
+        {
+            return board.MakeMove(move.X_Start, move.Y_Start, move.X_End, move.Y_End);
+        }
         public static bool MakeMove(this Field[][] board,int x_start, int y_start, int x_end, int y_end)
         {
             List<Point> checkersToRemove = new List<Point>();
@@ -35,6 +39,21 @@ namespace AI_Checkers
                 //AddGameLog($"Move {x_start},{y_start} -> {x_end},{y_end} not possible");
             }
             return false;
+        }
+        public static Field[][] DeepCopy(this Field[][] sourceBoard)
+        {
+            Field[][] result = new Field[sourceBoard.Length][];
+
+            for (int i = 0; i < sourceBoard.Length; i++)
+            {
+                result[i] = new Field[sourceBoard.Length];
+                for (int j = 0; j < sourceBoard.Length; j++)
+                {
+                    result[i][j] = new Field(sourceBoard[i][j].Check, sourceBoard[i][j].IsQueenField);
+                }
+            }
+
+            return result;
         }
 
     }

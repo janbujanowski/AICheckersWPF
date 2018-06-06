@@ -14,6 +14,11 @@ namespace AI_Checkers
 
         public static bool IsMovePossible(Field[][] board, Move move, List<Point> checkersToRemove = default(List<Point>))
         {
+            if (checkersToRemove == null)
+            {
+                checkersToRemove = new List<Point>();
+            }
+
             if (move.X_End < 0 || move.X_End > 7 || move.Y_End < 0 || move.Y_End > 7)
             {
                 return false;
@@ -95,7 +100,7 @@ namespace AI_Checkers
             {
                 //its recurring capture
                 bool atLeastOneGood = false;
-                IsGoodRecurring(board, move, checkersToRemove, ref atLeastOneGood);
+                //IsGoodRecurring(board, move, checkersToRemove, ref atLeastOneGood);
                 if (atLeastOneGood)
                 {
                     return true;
@@ -140,6 +145,10 @@ namespace AI_Checkers
 
         private static bool IsGoodRecurring(Field[][] board, Move move, List<Point> checkersToRemove, ref bool atLeastOneGood)
         {
+            if (checkersToRemove == null)
+            {
+                checkersToRemove = new List<Point>();
+            }
             List<Move> possibilities = new List<Move>()
                 {
                     new Move(move.X_Start,move.Y_Start, move.X_Start + 2, move.Y_Start + 2),
@@ -149,7 +158,7 @@ namespace AI_Checkers
                 };
             foreach (var possibility in possibilities)
             {
-                Field[][] fakeBoard = board.Select(s => s.ToArray()).ToArray();
+                Field[][] fakeBoard = board.DeepCopy();
                 if (IsMovePossible(fakeBoard, possibility, checkersToRemove))
                 {
                     atLeastOneGood = true;

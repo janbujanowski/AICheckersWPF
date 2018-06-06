@@ -10,11 +10,11 @@ namespace AI_Checkers.AI
 {
     class AIMinMax : IAI
     {
-        const int AI_TREEDEPTH = 3;
+        const int AI_TREEDEPTH = 2;
 
         const int WEIGHT_SINGLECHECKER = 2;
-        const int WEIGHT_QUEEN = 6;
-        
+        const int WEIGHT_QUEEN = 3;
+
         Tree<Move> gameTree;
 
         public Move GetNextMove(Field[][] board)
@@ -27,25 +27,25 @@ namespace AI_Checkers.AI
             foreach (Move myPossibleMove in possibleMoves)
             {
                 var isMaxing = true;
-                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board), isMaxing);
+                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove),board.DeepCopy(), isMaxing);
             }
 
             Move nextMove = GetBestMove(gameTree);
             return nextMove;
         }
 
-        private void CalculateChildTree(int depth, Tree<Move> tree, Move myPossibleMove, Field[][] board, bool isMaxing)
+        private void CalculateChildTree(int depth, Tree<Move> tree, Field[][] board, bool isMaxing)
         {
             try
             {
-                board.MakeMove(myPossibleMove.X_Start, myPossibleMove.Y_Start, myPossibleMove.X_End, myPossibleMove.Y_End);
+                board.MakeMove(tree.Value.X_Start, tree.Value.Y_Start, tree.Value.X_End, tree.Value.Y_End);
                 tree.Score = ScoreBoard(board, isMaxing);
                 if (depth > 0)
                 {
-                    var possibleMoves = GetPossibleMoves(board, true);
+                    var possibleMoves = GetPossibleMoves(board, isMaxing);
                     foreach (Move nextMove in possibleMoves)
                     {
-                        CalculateChildTree(depth - 1, tree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board), !isMaxing);
+                        CalculateChildTree(depth - 1, tree.AddChild(nextMove), board.DeepCopy(), !isMaxing);
                     }
                 }
             }
@@ -126,9 +126,17 @@ namespace AI_Checkers.AI
                         {
                             score += WEIGHT_SINGLECHECKER;
                         }
-                        if (checker.isQueen)
+                        if (!checker.isAI)
+                        {
+                            score -= WEIGHT_SINGLECHECKER;
+                        }
+                        if (checker.isAI && checker.isQueen)
                         {
                             score += WEIGHT_QUEEN;
+                        }
+                        if (!checker.isAI && checker.isQueen)
+                        {
+                            score -= WEIGHT_QUEEN;
                         }
                     }
                 }
@@ -143,25 +151,46 @@ namespace AI_Checkers.AI
         private Move GetBestMove(Tree<Move> gameTree)
         {
             Move finaleMove = new Move(-2, -2, -2, -2);
-            var bestscore = Minimax(AI_TREEDEPTH, gameTree);
-            var node = gameTree.Children.FirstOrDefault(x => x.Score == bestscore);
-            finaleMove = node.Value;
+            var bestscore = Minimax(AI_TREEDEPTH, gameTree, ref finaleMove, true);
+            var lol = gameTree.AllScores.OrderByDescending(i => i);
+            //var node = gameTree.Children.FirstOrDefault(x => x.Score == bestscore);
+            //finaleMove = node.Value;
             return finaleMove;
         }
 
-        private float Minimax(int depth, Tree<Move> gameTree)
+        private float Minimax(int depth, Tree<Move> gameTree, ref Move finale, bool maximizingPlayer)
         {
+            float bestScore = 0;
             if (depth == 0)
             {
                 return gameTree.Score;
             }
-            float bestScore = -100000;
-            foreach (var node in gameTree.Children)
+            if (maximizingPlayer)
             {
-                var value = Minimax(depth - 1, node);
-                bestScore = Math.Max(bestScore, value);
-                gameTree.Score = bestScore;
-                //close close - i'm losing the final move somewhere
+                bestScore = -100000;
+                foreach (var node in gameTree.Children)
+                {
+                    var value = Minimax(depth - 1, node, ref finale, false);
+                    if (value > bestScore)
+                    {
+                        finale = node.Value;
+                        bestScore = value;
+                    }
+                }
+            }
+            else
+            {
+                bestScore = 100000;
+                foreach (var node in gameTree.Children)
+                {
+                    var value = Minimax(depth - 1, node, ref finale, false);
+                    if (value < bestScore)
+                    {
+                        finale = node.Value;
+                        bestScore = value;
+                    }
+
+                }
             }
             return bestScore;
         }
