@@ -32,7 +32,7 @@ namespace AI_Checkers
             InitializeComponent();
             this.game = new Game();
             this.DataContext = game;
-            AI = new AIRandom();
+            AI = new AIMinMax();
             InitBoardUI();
         }
 

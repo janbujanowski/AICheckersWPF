@@ -53,5 +53,7 @@ namespace AI_Checkers
             get { return this.value; }
         }
 
+        public float Score;
+
     }
 }

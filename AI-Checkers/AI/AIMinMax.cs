@@ -14,15 +14,7 @@ namespace AI_Checkers.AI
 
         const int WEIGHT_SINGLECHECKER = 2;
         const int WEIGHT_QUEEN = 6;
-        //int WEIGHT_CAPTUREDOUBLE = 5;
-        //int WEIGHT_CAPTUREMULTI = 10;
-
-        ////Defensive
-        //int WEIGHT_ATRISK = 3;
-        //int WEIGHT_KINGATRISK = 4;
-
-        ////Strategic
-        //int WEIGHT_MAKEKING = 1;
+        
         Tree<Move> gameTree;
 
         public Move GetNextMove(Field[][] board)
@@ -35,19 +27,34 @@ namespace AI_Checkers.AI
             foreach (Move myPossibleMove in possibleMoves)
             {
                 var isMaxing = true;
-                
-                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board));
-
-                //gameTree.AddChildren(Utils.GetOpenSquares(Board, new Point(j, i)));
+                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board), isMaxing);
             }
 
-            Move nextMove = ScoreTreeMoves(gameTree);
+            Move nextMove = GetBestMove(gameTree);
             return nextMove;
         }
 
-        private void CalculateChildTree(int aI_TREEDEPTH, Tree<Move> tree, Move myPossibleMove, Field[][] board)
+        private void CalculateChildTree(int depth, Tree<Move> tree, Move myPossibleMove, Field[][] board, bool isMaxing)
         {
-            board.MakeMove(myPossibleMove.X_Start, myPossibleMove.Y_Start, myPossibleMove.X_End, myPossibleMove.Y_End);
+            try
+            {
+                board.MakeMove(myPossibleMove.X_Start, myPossibleMove.Y_Start, myPossibleMove.X_End, myPossibleMove.Y_End);
+                tree.Score = ScoreBoard(board, isMaxing);
+                if (depth > 0)
+                {
+                    var possibleMoves = GetPossibleMoves(board, true);
+                    foreach (Move nextMove in possibleMoves)
+                    {
+                        CalculateChildTree(depth - 1, tree.AddChild(myPossibleMove), myPossibleMove, DeepCopy(board), !isMaxing);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+            //should i return sth or not
         }
 
         private List<Move> GetPossibleMoves(Field[][] board, bool getAiMoves)
@@ -96,9 +103,9 @@ namespace AI_Checkers.AI
 
             for (int i = 0; i < sourceBoard.Length; i++)
             {
+                result[i] = new Field[sourceBoard.Length];
                 for (int j = 0; j < sourceBoard.Length; j++)
                 {
-                    result[i] = new Field[sourceBoard.Length];
                     result[i][j] = new Field(sourceBoard[i][j].Check, sourceBoard[i][j].IsQueenField);
                 }
             }
@@ -133,9 +140,30 @@ namespace AI_Checkers.AI
             return score;
         }
 
-        private Move ScoreTreeMoves(Tree<Move> gameTree)
+        private Move GetBestMove(Tree<Move> gameTree)
         {
-            throw new NotImplementedException();
+            Move finaleMove = new Move(-2, -2, -2, -2);
+            var bestscore = Minimax(AI_TREEDEPTH, gameTree);
+            var node = gameTree.Children.FirstOrDefault(x => x.Score == bestscore);
+            finaleMove = node.Value;
+            return finaleMove;
+        }
+
+        private float Minimax(int depth, Tree<Move> gameTree)
+        {
+            if (depth == 0)
+            {
+                return gameTree.Score;
+            }
+            float bestScore = -100000;
+            foreach (var node in gameTree.Children)
+            {
+                var value = Minimax(depth - 1, node);
+                bestScore = Math.Max(bestScore, value);
+                gameTree.Score = bestScore;
+                //close close - i'm losing the final move somewhere
+            }
+            return bestScore;
         }
 
 
