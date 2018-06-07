@@ -31,6 +31,10 @@ namespace AI_Checkers
             }
 
             Field start = board[move.X_Start][move.Y_Start];
+            if (start.Check == null)
+            {
+                return false;
+            }
             bool isQueenChecker = start.Check.isQueen;
             bool isForward = start.Check.isAI && move.Y_End >= move.Y_Start;
             isForward = isForward || (!start.Check.isAI && move.Y_End <= move.Y_Start);

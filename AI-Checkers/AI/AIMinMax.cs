@@ -10,10 +10,10 @@ namespace AI_Checkers.AI
 {
     class AIMinMax : IAI
     {
-        const int AI_TREEDEPTH = 2;
+        const int AI_TREEDEPTH = 3;
 
         const int WEIGHT_SINGLECHECKER = 2;
-        const int WEIGHT_QUEEN = 3;
+        const int WEIGHT_QUEEN = 4;
 
         Tree<Move> gameTree;
 
@@ -23,11 +23,11 @@ namespace AI_Checkers.AI
             Console.WriteLine("AI: Building Game Tree...");
 
             gameTree = new Tree<Move>(new Move(-1, -1, -1, -1));
-            var possibleMoves = GetPossibleMoves(board, true);
+            var possibleMoves = GetPossibleMoves(board.DeepCopy(), true);
             foreach (Move myPossibleMove in possibleMoves)
             {
                 var isMaxing = true;
-                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove),board.DeepCopy(), isMaxing);
+                CalculateChildTree(AI_TREEDEPTH, gameTree.AddChild(myPossibleMove), board.DeepCopy(), isMaxing);
             }
 
             Move nextMove = GetBestMove(gameTree);
@@ -42,7 +42,7 @@ namespace AI_Checkers.AI
                 tree.Score = ScoreBoard(board, isMaxing);
                 if (depth > 0)
                 {
-                    var possibleMoves = GetPossibleMoves(board, isMaxing);
+                    var possibleMoves = GetPossibleMoves(board.DeepCopy(), isMaxing);
                     foreach (Move nextMove in possibleMoves)
                     {
                         CalculateChildTree(depth - 1, tree.AddChild(nextMove), board.DeepCopy(), !isMaxing);
@@ -51,7 +51,6 @@ namespace AI_Checkers.AI
             }
             catch (Exception ex)
             {
-
 
             }
             //should i return sth or not
@@ -88,7 +87,7 @@ namespace AI_Checkers.AI
             {
                 for (int j = 0; j < board.Length; j++)
                 {
-                    if (board[i][j].Check == null)
+                    if (board[i][j].Check == null && (i + j) % 2 != 0)
                     {
                         openSquares.Add(new Point(i, j));
                     }
@@ -96,22 +95,7 @@ namespace AI_Checkers.AI
             }
             return openSquares;
         }
-
-        private Field[][] DeepCopy(Field[][] sourceBoard)
-        {
-            Field[][] result = new Field[sourceBoard.Length][];
-
-            for (int i = 0; i < sourceBoard.Length; i++)
-            {
-                result[i] = new Field[sourceBoard.Length];
-                for (int j = 0; j < sourceBoard.Length; j++)
-                {
-                    result[i][j] = new Field(sourceBoard[i][j].Check, sourceBoard[i][j].IsQueenField);
-                }
-            }
-
-            return result;
-        }
+              
         private float ScoreBoard(Field[][] board, bool isAiMax)
         {
             float score = 0;
@@ -152,9 +136,10 @@ namespace AI_Checkers.AI
         {
             Move finaleMove = new Move(-2, -2, -2, -2);
             var bestscore = Minimax(AI_TREEDEPTH, gameTree, ref finaleMove, true);
-            var lol = gameTree.AllScores.OrderByDescending(i => i);
-            //var node = gameTree.Children.FirstOrDefault(x => x.Score == bestscore);
-            //finaleMove = node.Value;
+            var lol = gameTree.Children.Select(x => x.Score);
+            
+            finaleMove = gameTree.Children.FirstOrDefault(x => x.Score == bestscore).Value;
+
             return finaleMove;
         }
 
@@ -173,7 +158,7 @@ namespace AI_Checkers.AI
                     var value = Minimax(depth - 1, node, ref finale, false);
                     if (value > bestScore)
                     {
-                        finale = node.Value;
+                        //finale = node.Value;
                         bestScore = value;
                     }
                 }
@@ -186,12 +171,13 @@ namespace AI_Checkers.AI
                     var value = Minimax(depth - 1, node, ref finale, false);
                     if (value < bestScore)
                     {
-                        finale = node.Value;
+                        //finale = node.Value;
                         bestScore = value;
                     }
 
                 }
             }
+            gameTree.Score = bestScore;
             return bestScore;
         }
 

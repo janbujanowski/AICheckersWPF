@@ -55,6 +55,7 @@ namespace AI_Checkers
                     Grid.SetRow(stackPanel, j);
                     BoardHolder.Children.Add(stackPanel);
 
+
                     Button butt = new Button
                     {
                         Style = (Style)Application.Current.Resources["RoundCorner"]

@@ -49,7 +49,12 @@ namespace AI_Checkers
                 result[i] = new Field[sourceBoard.Length];
                 for (int j = 0; j < sourceBoard.Length; j++)
                 {
-                    result[i][j] = new Field(sourceBoard[i][j].Check, sourceBoard[i][j].IsQueenField);
+                    Checker check = null;
+                    if (sourceBoard[i][j].Check != null)
+                    {
+                        check = new Checker(sourceBoard[i][j].Check.isQueen, sourceBoard[i][j].Check.isAI);
+                    }
+                    result[i][j] = new Field(check, sourceBoard[i][j].IsQueenField);
                 }
             }
 
